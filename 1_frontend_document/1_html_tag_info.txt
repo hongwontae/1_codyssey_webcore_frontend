@@ -19,7 +19,7 @@
         => content="width=device-width"은 veiewport의 너비를 device의 너비로 설정하라는 의미입니다.
         => 즉, 기기 화면 너비가 viewport의 너비가 됩니다.
         => 스마트폰 - viewport width ≈ 375px / 태블릿 - viewport width ≈ 768px / 노트북 - viewport width ≈ 1440px
-        => initial-scale=1.0 -> 페이지를 처음 열었을 떄 기본 확대 배율을 100%로 설정합니다.
+        => initial-scale=1.0 -> 페이지를 처음 열었을 떄 본 확대 배율을 100%로 설정합니다.
     
 3. <title>
     => 브라우저 탭 이름을 정하는 태그입니다.
