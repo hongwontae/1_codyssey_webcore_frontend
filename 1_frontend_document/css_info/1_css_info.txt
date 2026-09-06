@@ -1,0 +1,89 @@
+1. CSS 선택자
+    => CSS를 적용한 요소를 Target 하는 문법입니다.
+    => 선택자 {
+        속성 : 값;
+    }
+
+2. 태그 선택자
+    => p {
+        color : red;
+    }
+
+3. class 선택자
+    => .hello {
+    color: red;
+}
+
+
+4. id 선택자
+    => #title {
+    color: blue;
+}
+
+5. class vs id
+    => class는 그룹 / id는 고유 식별자입니다.
+    => 하나의 요소에 여러 class를 설정할 수 있습니다.
+
+6. css 상속
+    => 부모 요소에 적용된 일부 css 속성을 자식 요소가 물려받는 것을 의미합니다.
+    => 부모 요소에 적용된 속성은 자식이 적용될 수 있는데 이 떄 어떤 속성인지에 따라 상속이 될 수도 있고 안 될 수도 있습니다.
+    => color 속성은 상속 o / width 속성 상속 x
+    => css 변수는 상속됩니다. -> 그래서 최상위에 정의합니다.
+    => 부모 요소의 물려받은 속성을 자식이 재정의 -> 자식이 정의한 속성을 사용합니다.
+
+7. css 우선순위
+    => 한 요소에 여러 css 규칙이 적용되면 어떤 규칙을 적용할지 정하는 문법입니다.
+    => id > class > 태그
+    => 같은 우선순위라면 나중에 작성된 css가 적용됩니다.
+
+8. css 변수
+    => css 변수를 선언하면 자식에게 상속됩니다. 이 떄 속성 자체가 전달되는게 아니라 변수에 접근할 수 있는 상속입니다.
+    => 변수 선언
+    :root {
+    --main-color: blue;
+    --font-size: 20px;
+    }
+    => 변수 사용 
+    h1 {
+    color: var(--main-color);
+    font-size: var(--font-size);
+    }
+
+
+9. html 사용자 정의 속성
+    => html 요소에 사용자 정의 속성을 넣을 수 있습니다.
+    => data-로 이름을 지어야 허용합니다.
+    => <div data-theme="dark"></div>
+
+10. 속성 선택자
+    => [속성=값] {
+        ...
+    } -> html 요소 중 속성=값이 일치하는 요소를 찾고 css를 적용해라
+
+
+11. 전체 선택자
+    => *
+    => HTML의 모든 요소를 선택하는 선택자입니다.
+
+12. box-sizing : border-box
+    => box-sizing은 width/height를 이 박스의 어느 부분까지 포함해서 계산할 것인가?
+    => default는 content-box
+    => .box {
+        width : 300px;
+        padding : 20px;
+    } -> content는 300px, padding은 20px이 됩니다.
+    => border-box
+    => .box {
+    width: 300px;
+    padding: 20px;
+    } -> width+padding 합친 값이 300px / 즉, content, padding, border 값 모두 포함해서 300px
+
+
+13. html {
+    scroll-behavior: smooth;
+} -> 페이지에서 스크롤할 떄 부드럽게 움직이게 해주는 css
+
+
+14. body {margin : 0}
+    => 브라우저는 기본적으로 body에 약간의 여백을 줍니다.
+    => margin : 0 -> default 값을 제거

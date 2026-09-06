@@ -9,7 +9,7 @@
     --spacing-large: 32px;
 }
 
-
+/*data-theme="dark"라는 요소를 기준으로 css 변수 선언*/
 [data-theme="dark"] {
     --bg-color: #121212;
     --text-color: #ffffff;
