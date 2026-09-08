@@ -65,20 +65,11 @@ function showProjects() {
 }
 
 
-function showError() {
-
-    projectsLoading.style.display =
-        'none';
-
-    projectsError.style.display =
-        'block';
-
-    projectsEmpty.style.display =
-        'none';
-
-    projectList.innerHTML =
-        '';
-
+function showProjectError() {
+  projectsLoading.style.display = 'none';
+  projectsError.style.display = 'block';
+  projectsEmpty.style.display = 'none';
+  projectList.innerHTML = '';
 }
 
 
@@ -249,16 +240,9 @@ async function fetchProjects() {
 renderProjects(ownProjects);
 
     } catch (error) {
-
-        console.error(
-            '프로젝트를 불러오는 중 오류:',
-            error
-        );
-
-
-        showError();
-
-    }
+  console.error('프로젝트를 불러오는 중 오류:', error);
+  showProjectError();
+}
 
 }
 
