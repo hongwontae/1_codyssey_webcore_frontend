@@ -26,69 +26,21 @@
 <body>
 
 <header>
-
     <nav>
+        <a href="#home" class="logo">My Portfolio</a>
 
-        <a
-            href="#home"
-            class="logo"
-        >
-            My Portfolio
-        </a>
-
-
-        <button
-            class="menu-toggle"
-            type="button"
-        >
-            ☰
-        </button>
-
+        <button class="menu-toggle">☰</button>
 
         <ul class="nav-menu">
-
-            <li>
-                <a href="#home">
-                    Home
-                </a>
-            </li>
-
-            <li>
-                <a href="#about">
-                    About
-                </a>
-            </li>
-
-            <li>
-                <a href="#skills">
-                    Skills
-                </a>
-            </li>
-
-            <li>
-                <a href="#projects">
-                    Projects
-                </a>
-            </li>
-
-            <li>
-                <a href="#contact">
-                    Contact
-                </a>
-            </li>
-
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
 
-
-        <button
-            class="theme-toggle"
-            type="button"
-        >
-            🌙
-        </button>
-
+        <button class="theme-toggle">🌙</button>
     </nav>
-
 </header>
 
 
@@ -129,18 +81,30 @@
          About
     =============================== -->
 
-    <section id="about">
+<section id="about">
 
-        <h2>
-            About Me
-        </h2>
+    <h2>
+        About Me
+    </h2>
 
+    <div class="about-content">
+
+        <img
+            src="images/profile.jpg"
+            alt="홍원태 프로필 사진"
+        >
 
         <p>
-            여기에 자기소개를 작성합니다.
+            안녕하세요. 소프트웨어 개발을 공부하고 있는 홍원태입니다.
+            C언어를 통해 프로그래밍의 기본 원리를 공부하고 있으며,
+            HTML, CSS, JavaScript를 이용한 웹 개발도 함께 학습하고 있습니다.
+            단순히 코드를 작성하는 것보다 프로그램이 실제로 어떻게 동작하는지
+            이해하는 것을 중요하게 생각합니다.
         </p>
 
-    </section>
+    </div>
+
+</section>
 
 
     <!-- ==============================
@@ -173,59 +137,46 @@
          Projects
     =============================== -->
 
-    <section id="projects">
+<section id="projects">
 
-        <h2>
-            Projects
-        </h2>
-
-
-        <div class="project-list">
-
-            <div class="project-card">
-
-                <h3>
-                    C Language Study
-                </h3>
-
-                <p>
-                    C언어를 공부하며
-                    메모리와 포인터를 학습한 프로젝트입니다.
-                </p>
-
-            </div>
+    <h2>
+        Projects
+    </h2>
 
 
-            <div class="project-card">
-
-                <h3>
-                    Portfolio Website
-                </h3>
-
-                <p>
-                    HTML, CSS, JavaScript로
-                    만든 개인 포트폴리오입니다.
-                </p>
-
-            </div>
+    <!-- 로딩 상태 -->
+    <p class="projects-loading">
+        프로젝트를 불러오는 중...
+    </p>
 
 
-            <div class="project-card">
+    <!-- 에러 상태 -->
+    <div class="projects-error">
 
-                <h3>
-                    JavaScript Study
-                </h3>
+        <p>
+            프로젝트를 불러올 수 없습니다.
+        </p>
 
-                <p>
-                    JavaScript의 기본 문법과
-                    DOM을 학습하고 있습니다.
-                </p>
+        <button
+            type="button"
+            class="projects-retry"
+        >
+            다시 시도
+        </button>
 
-            </div>
+    </div>
 
-        </div>
 
-    </section>
+    <!-- 빈 상태 -->
+    <p class="projects-empty">
+        표시할 프로젝트가 없습니다.
+    </p>
+
+
+    <!-- 성공 상태 -->
+    <div class="project-list"></div>
+
+</section>
 
 
     <!-- ==============================
@@ -312,12 +263,13 @@
     </p>
 
 
-    <a
-        href="https://github.com/"
-        target="_blank"
-    >
-        GitHub
-    </a>
+<a
+    href="https://github.com/hongwontae"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    GitHub
+</a>
 
 </footer>
 
