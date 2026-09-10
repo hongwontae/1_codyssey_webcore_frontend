@@ -226,7 +226,6 @@ nav {
 
     color: var(--primary-color);
 
-    text-decoration: none;
 }
 
 
@@ -272,6 +271,7 @@ nav {
    About
 ======================================== */
 
+/* 모바일에서 최대 700px까지 증가해라 */
 #about p {
 
     max-width: 700px;
