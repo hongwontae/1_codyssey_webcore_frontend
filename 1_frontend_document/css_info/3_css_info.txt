@@ -1,0 +1,53 @@
+1. css margin 값 설정
+    1-1. margin : 20px -> 상-하-좌-우
+    1-2. margin : 10px 10px -> 첫 번쨰 상-하 / 두 번쨰 좌-우
+    1-3. margin : 10px 20px 30px -> 위 10p / 오른쪽 20px, 왼쪽 20px / 아래 30px
+    1-4. margin : 10px, 20px, 30px, 40 -> 위부터 시계 방향
+
+
+2. clamp(최소값, 원하는값, 최대값)
+    => 원하는 값을 동적으로 주고 최소값, 최대값 한계치를 두는 방식으로 많이 사용합니다.
+
+
+3. hero-buttons
+    => 작을 떄는 세로 방향 
+    => 화면이 클 떄는 가로 방향
+
+
+4. grid
+    => 요소들을 행과 열의 격자 형태로 배치하는 레이아웃 시스템입니다.
+    => display : grid -> 해당 속성이 적용된 요소가 grid Container / 요소의 자식들이 Grid Item이 됩니다.
+    => grid-template-columns -> 열을 몇 개 만들거고 각 열의 크기를 어떻게 할것인가?
+        => grid-template-colums : 200px 200px 200px 
+                column       column       column
+                    ↓            ↓            ↓
+
+                200px        200px        200px
+                ┌──────────┬──────────┬──────────┐
+                │    A     │    B     │    C     │
+                ├──────────┼──────────┼──────────┤
+                │    D     │    E     │    F     │
+                └──────────┴──────────┴──────────┘
+        => grid-template..에 사용할 수 있는 함수나 값이 있습니다.
+        => repeat(3, 200px) == 200px 200px 200px
+        => fr은 비율입니다. 1fr 1fr -> 사용할 공간을 1 : 1로 나눠 갖겠다.
+        => minmax(18opx, 1fr) -> 최소 180px, 최대 1fr
+        => auto-fit -> grid에서 들어갈 수 있을 만큼 열을 자동으로 만들어라
+        => grid-template-columns:repeat(auto-fit,minmax(180px, 1fr));
+            => 이 형식일 떄는 minmax의 최소값을 만족할 수 있는 열을 최대한 많이 만든다.
+            => 즉, min으로 최대한 많은 열을 만들고 남은 자투리는 1fr -> 공평하게 나눠 갖는다.
+
+
+5. #contact form > div
+    => id가 contact인 요소 안의 <form> 바로 밑에 있는 <div>를 선택해라
+    => #contact form div -> form 태그 아래 div를 선택해버립니다. -> 원하는 동작이 아님
+
+
+6. resize: vertical;
+    => 사용자가 크기를 마우스로 조절할 수 있게 하되, 세로 방향만 조절할 수 있게 하는 CSS 속성입니다.
+
+
+7. margin : auto
+    => 남는 공간을 자동으로 분배하라는 의미입니다.
+    => margin-left : auto -> 남는 공간을 left가 다 먹게 해서 오른쪽으로 밀어버림
+    => margin : auto -> 남는 공간을 모두가 먹어버리고 가운데 정렬
