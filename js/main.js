@@ -45,7 +45,7 @@ function showLoading() {
     projectsEmpty.style.display =
         'none';
 
-    projectList.innerHTML =
+    projectList.textContent =
         '';
 
 }
@@ -69,7 +69,7 @@ function showProjectError() {
   projectsLoading.style.display = 'none';
   projectsError.style.display = 'block';
   projectsEmpty.style.display = 'none';
-  projectList.innerHTML = '';
+  projectList.textContent = '';
 }
 
 
@@ -84,7 +84,7 @@ function showEmpty() {
     projectsEmpty.style.display =
         'block';
 
-    projectList.innerHTML =
+    projectList.textContent =
         '';
 
 }
