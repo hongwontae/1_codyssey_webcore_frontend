@@ -1,0 +1,28 @@
+1. scrollTopButton, header
+    => 맨 아래에 존재하는 위쪽으로 끌어올리는 버튼
+    => header -> nav 부모
+
+
+2. window.addEventListener('scroll', () => {...});
+    => 브라우저가 scroll 될 떄마다 해당 함수를 실행합니다.
+    => window.scrollY; -> 현재 웹 페이지를 세로 방향으로 얼마나 스크롤했는지 나타내는 값입니다. (px 단위)
+    => scrollY가 300 이상이면 scrollTopButton에 show class 추가 -> 이제 버튼이 보임
+    => 그렇지 않으면 제거
+    => scrollY가 60 이상이면 header에 scrolled 클래스 추가 / 아니면 제거
+
+
+3. scrollTopButton.addEventListener('click', {...})
+    => 클릭했을 때 window.scrollTo 함수를 통해 스크롤합니다.
+    => 맨 위까지, 부드럽게
+
+
+4. const observer = new IntersectionObserver((entries)=>{
+
+}, {
+
+})
+    => IntersectionObserver는 해당 HTML이 들어왔는지 감시해달라고 요청하는 객체입니다.
+    => 첫 번쨰 인자는 
+    
+
+
