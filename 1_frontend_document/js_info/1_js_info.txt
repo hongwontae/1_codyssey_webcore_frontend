@@ -44,3 +44,51 @@
 
 11. 요소객체.innerHTML
     => 요소 객체 내부의 text 자리에 HTML를 수정하는 속성입니다.
+
+
+12. display = "none"
+    => 해당 요소를 완전히 제거하는 것입니다.
+    => visibility : hidden -> 안보이지만 공간를 차지합니다.
+    => display = "none" -> 안보이고 공간도 없습니다.
+
+
+13. 처음에는 fetchProjects()를 호출합니다.
+    => 첫 번쨰로 showLoading를 호출합니다.
+    => 로딩 요소 block / 에러 요소 none / empty 요소 none / list요소.textContent = ''
+    => try-catch 안에서 fetch를 실행합니다.
+    => fetch가 http를 요청했을 때 서버가 404/500을 응답해도 catch로 보내지 않습니다. -> not found, internal sever error
+    => 그래서 ok를 통해 확인 후 실패시 직접 에러 처리 한다. 
+    => 만약 성공했다면 .json()으로 JSON 데이터를 JS 값으로 변환합니다.
+
+    => JS로 변환 값 중 fork라는 키가 있습니다. -> GitHub에서 어떤 저장소를 다른 사람의 계정으로 복사해서 가져오는 것입니다.
+    => fork가 false라면 내가 만든 저장소라는 의미입니다.
+    => filter를 통해서 false라면 true로 만들고 그 값만 정제해서 가져옵니다.
+
+    => 그리고 그 배열의 길이가 0이라면 showEmpty()를 실행하고 return 합니다.
+    => loaidng : "none", error : "none", empty : "block", list.textContent : "";
+
+
+14. addEventListener
+    => JS에서 HTML 요소에서 특정 이벤트가 발생했을 때 실행할 코드를 등록하는 것입니다.
+    => 요소.addEventListener("이벤트", 함수);
+    => 이벤트란 웹 페이지에서 어떤 사건이 발생했다는 사실입니다.
+    => 브라우저가 사용자 행동을 감지하고, 그 결과를 이벤트로 만들어 DOM의 해당 요소와 연결해서 전달합니다. (행동 자체를 감지하는 주체는 브라우저)
+             사용자
+               │
+            버튼 클릭
+               ↓
+          ┌──────────┐
+          │ 브라우저  │  ← 실제 행동을 감지
+          └────┬─────┘
+               │
+          click 이벤트 생성
+               ↓
+          ┌──────────┐
+          │   DOM    │  ← 어떤 요소에서 발생했는지 연결
+          │  button  │
+          └────┬─────┘
+               │
+       등록된 이벤트 리스너
+               ↓
+          JavaScript 함수
+

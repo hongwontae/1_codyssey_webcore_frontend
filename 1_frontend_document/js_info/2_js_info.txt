@@ -1,0 +1,53 @@
+1. menuToggle / navMenu
+    => menuToggle -> 큰 화면에서는 none / 작은 화면에서는 햄버거
+    => navMenu -> nav를 보여주는 요소
+
+
+2. 요소객체.classList
+    => 요소가 가지고 있는 클래스들을 다룰 수 있는 객체입니다.
+    => classList.add("") : 클래스 추가
+    => classList.remove("") : 클래스 제거
+    => classList.contain("") : 존재 여부 boolean
+    => classList.toggle("") : 있으면 제거하고 있으면 추가
+
+
+3. menuToggle.add.. classList.toggle()..
+    => css 모바일에서 기본적으로 display : none
+    => active 시 block + flex
+
+
+4. querySelectorAll(.nav-menu a)
+    => nav-menu에 존재하는 모든 a 태그를 노드리스트로 가져옵니다.
+    => 그리고 forEach를 통해 모든 요소를 addEventListener에서 클릭 이벤트 발생 시 navMenu active 클래스를 제거합니다.
+
+
+5. localStorage
+    => JS에서 브라우저에 데이터를 저장해 두는 공간입니다.
+    => 페이지를 새로고침하거나 나가도 데이터가 남아 있습니다.
+    => localStorage.setItem(key, value) -> key-value를 저장합니다.
+    => localStorage.getItem(key) -> value를 가져옵니다.
+    => localStorage.removeItem(key) -> key-value 삭제
+    => localStorage.clear() -> 전체 삭제
+
+
+6. document.body.dataset
+    => HTML에서 data-* -> 이렇게 원하는 속성을 넣을 수 있습니다.
+    => data-name = "dark" | data-kkk = "illiu"
+    => body.dataset -> body에 붙어 있는 data-로 시작하는 속성을 가져올 수 있습니다.
+    => dataset.커스텀속성이름
+
+
+7. 6를 통해 로컬 스토리지를 보고 있다면 기존 모드 / 없다면 다크 모드로 지정합니다.
+
+
+8. updateThemeButton()
+    => 테마 아이콘을 변경합니다.
+    => 테마속성이 dark면 🌙 / light면 ☀️
+
+
+9.themeToggle.addEventListener
+    => 토글 버튼을 눌렀을 떄 dataset.theme를 통해 속성 값을 가져옵니다.
+    => 속성 값이 dark -> light / light -> dark 바꿉니다.
+    => 속성값을 바꾼 값으로 교체
+    => localStorage에 그 값도 교체
+    => button 아이콘 변경을 위해 updateThemeButton() 실행

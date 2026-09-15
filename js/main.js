@@ -518,8 +518,7 @@ scrollTopButton.addEventListener(
     감시하는 객체
 */
 
-const observer =
-    new IntersectionObserver(
+const observer = new IntersectionObserver(
         (entries) => {
 
             entries.forEach((entry) => {
