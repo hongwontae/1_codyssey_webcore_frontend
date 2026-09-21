@@ -18,74 +18,120 @@ const projectsRetry =
     document.querySelector('.projects-retry');
 
 
-/* GitHub ID */
+/* ========================================
+   GitHub ID
+======================================== */
 
 const githubUsername =
     'hongwontae';
 
 
-/* GitHub API URL */
+/* ========================================
+   GitHub API URL
+======================================== */
 
 const githubApiUrl =
     `https://api.github.com/users/${githubUsername}/repos`;
 
 
 /* ========================================
-   UI State
+   Project State
 ======================================== */
 
-function showLoading() {
+/*
+    프로젝트 상태
+
+    loading : API 요청 중
+    success : 프로젝트 가져오기 성공
+    error   : API 요청 실패
+    empty   : 프로젝트가 없음
+*/
+
+let projectState = 'loading';
+
+
+/*
+    GitHub에서 가져온 프로젝트 데이터
+*/
+
+let projects = [];
+
+
+/* ========================================
+   Project State 변경
+======================================== */
+
+function setProjectState(newState) {
+
+    projectState = newState;
+
+    renderProjectState();
+
+}
+
+
+/* ========================================
+   Project State Rendering
+======================================== */
+
+function renderProjectState() {
+
+    /*
+        모든 상태 화면을 먼저 숨긴다.
+    */
 
     projectsLoading.style.display =
-        'block';
+        'none';
 
     projectsError.style.display =
         'none';
 
     projectsEmpty.style.display =
         'none';
+
+
+    /*
+        프로젝트 목록 초기화
+    */
 
     projectList.textContent =
         '';
 
-}
+
+    /*
+        현재 상태에 따라
+        어떤 화면을 보여줄지 결정
+    */
+
+    if (projectState === 'loading') {
+
+        projectsLoading.style.display =
+            'block';
+
+    }
 
 
-function showProjects() {
+    else if (projectState === 'error') {
 
-    projectsLoading.style.display =
-        'none';
+        projectsError.style.display =
+            'block';
 
-    projectsError.style.display =
-        'none';
-
-    projectsEmpty.style.display =
-        'none';
-
-}
+    }
 
 
-function showProjectError() {
-  projectsLoading.style.display = 'none';
-  projectsError.style.display = 'block';
-  projectsEmpty.style.display = 'none';
-  projectList.textContent = '';
-}
+    else if (projectState === 'empty') {
+
+        projectsEmpty.style.display =
+            'block';
+
+    }
 
 
-function showEmpty() {
+    else if (projectState === 'success') {
 
-    projectsLoading.style.display =
-        'none';
+        renderProjects();
 
-    projectsError.style.display =
-        'none';
-
-    projectsEmpty.style.display =
-        'block';
-
-    projectList.textContent =
-        '';
+    }
 
 }
 
@@ -94,10 +140,12 @@ function showEmpty() {
    Render Projects
 ======================================== */
 
-function renderProjects(projects) {
+function renderProjects() {
 
-    showProjects();
-
+    /*
+        projects 배열을
+        HTML 카드 배열로 변환
+    */
 
     const projectHTML =
         projects.map((project) => {
@@ -170,7 +218,7 @@ function renderProjects(projects) {
 
 
     /*
-        배열 → HTML 문자열
+        배열 → 하나의 HTML 문자열
     */
 
     projectList.innerHTML =
@@ -185,13 +233,25 @@ function renderProjects(projects) {
 
 async function fetchProjects() {
 
-    showLoading();
+    /*
+        API 요청 시작
+
+        상태 변경:
+        loading
+    */
+
+    setProjectState('loading');
 
 
     try {
 
         const response =
             await fetch(githubApiUrl);
+
+
+        /*
+            HTTP 응답이 성공적이지 않은 경우
+        */
 
         if (!response.ok) {
 
@@ -201,31 +261,75 @@ async function fetchProjects() {
 
         }
 
-    const projects =
-        await response.json();
 
-    const ownProjects =
-        projects.filter((project) => {
+        /*
+            JSON 데이터 가져오기
+        */
 
-            return project.fork === false;
+        const data =
+            await response.json();
 
-        });
 
-    if (ownProjects.length === 0) {
+        /*
+            fork가 아닌
+            본인의 프로젝트만 필터링
+        */
 
-        showEmpty();
+        projects =
+            data.filter((project) => {
 
-        return;
+                return project.fork === false;
+
+            });
+
+
+        /*
+            프로젝트가 없는 경우
+
+            상태 변경:
+            empty
+        */
+
+        if (projects.length === 0) {
+
+            setProjectState('empty');
+
+            return;
+
+        }
+
+
+        /*
+            프로젝트가 존재하는 경우
+
+            상태 변경:
+            success
+        */
+
+        setProjectState('success');
+
 
     }
 
 
-renderProjects(ownProjects);
+    catch (error) {
 
-    } catch (error) {
-  console.error('프로젝트를 불러오는 중 오류:', error);
-  showProjectError();
-}
+        console.error(
+            '프로젝트를 불러오는 중 오류:',
+            error
+        );
+
+
+        /*
+            API 요청 실패
+
+            상태 변경:
+            error
+        */
+
+        setProjectState('error');
+
+    }
 
 }
 
@@ -262,24 +366,102 @@ const navMenu =
     document.querySelector('.nav-menu');
 
 
-menuToggle.addEventListener('click', () => {
+/* ========================================
+   Menu State
+======================================== */
 
-    navMenu.classList.toggle('active');
+/*
+    모바일 메뉴가 열려 있는지
+    닫혀 있는지를 상태로 관리한다.
 
-});
+    true  = 열림
+    false = 닫힘
+*/
 
+let menuState = false;
+
+
+/* ========================================
+   Menu State 변경
+======================================== */
+
+function setMenuState(isOpen) {
+
+    menuState = isOpen;
+
+    renderMenuState();
+
+}
+
+
+/* ========================================
+   Menu Rendering
+======================================== */
+
+function renderMenuState() {
+
+    /*
+        menuState에 따라
+        active 클래스 변경
+    */
+
+    if (menuState) {
+
+        navMenu.classList.add('active');
+
+    }
+
+    else {
+
+        navMenu.classList.remove('active');
+
+    }
+
+}
+
+
+/* ========================================
+   Menu Toggle
+======================================== */
+
+menuToggle.addEventListener(
+    'click',
+    () => {
+
+        /*
+            현재 상태의 반대로 변경
+        */
+
+        setMenuState(!menuState);
+
+    }
+);
+
+
+/* ========================================
+   Navigation Links
+======================================== */
 
 const navLinks =
-    document.querySelectorAll('.nav-menu a');
+    document.querySelectorAll(
+        '.nav-menu a'
+    );
 
 
 navLinks.forEach((link) => {
 
-    link.addEventListener('click', () => {
+    link.addEventListener(
+        'click',
+        () => {
 
-        navMenu.classList.remove('active');
+            /*
+                메뉴를 닫힌 상태로 변경
+            */
 
-    });
+            setMenuState(false);
+
+        }
+    );
 
 });
 
@@ -292,85 +474,118 @@ const themeToggle =
     document.querySelector('.theme-toggle');
 
 
-const savedTheme =
+/* ========================================
+   Theme State
+======================================== */
+
+/*
+    현재 테마를 JavaScript 상태로 관리한다.
+
+    dark
+    light
+*/
+
+let themeState =
     localStorage.getItem('theme');
 
-if (savedTheme) {
 
-    document.body.dataset.theme =
-        savedTheme;
+/*
+    저장된 테마가 없으면
+    기존 코드와 동일하게 dark를 사용
+*/
 
-} else {
+if (!themeState) {
 
-    document.body.dataset.theme =
-        'dark';
+    themeState = 'dark';
 
 }
 
 
-function updateThemeButton() {
+/* ========================================
+   Theme Rendering
+======================================== */
 
-    const currentTheme =
-        document.body.dataset.theme;
+function renderTheme() {
+
+    /*
+        상태를 실제 DOM에 반영
+    */
+
+    document.body.dataset.theme =
+        themeState;
 
 
-    if (currentTheme === 'dark') {
+    /*
+        버튼 아이콘도 현재 상태에 맞게 변경
+    */
 
-        themeToggle.textContent = '🌙';
+    if (themeState === 'dark') {
 
-    } else {
+        themeToggle.textContent =
+            '🌙';
 
-        themeToggle.textContent = '☀️';
+    }
+
+    else {
+
+        themeToggle.textContent =
+            '☀️';
 
     }
 
 }
 
 
-updateThemeButton();
+/* ========================================
+   Initial Theme
+======================================== */
+
+renderTheme();
 
 
-/*
-    Theme 버튼 클릭
-*/
+/* ========================================
+   Theme Toggle
+======================================== */
 
-themeToggle.addEventListener('click', () => {
+themeToggle.addEventListener(
+    'click',
+    () => {
 
-    const currentTheme =
-        document.body.dataset.theme;
+        /*
+            상태 변경
+        */
 
+        if (themeState === 'dark') {
 
-    const newTheme =
-        currentTheme === 'dark'
-            ? 'light'
-            : 'dark';
+            themeState = 'light';
 
+        }
 
-    /*
-        화면의 테마 변경
-    */
+        else {
 
-    document.body.dataset.theme =
-        newTheme;
+            themeState = 'dark';
 
-
-    /*
-        다음 방문을 위해 저장
-    */
-
-    localStorage.setItem(
-        'theme',
-        newTheme
-    );
+        }
 
 
-    /*
-        버튼 아이콘 변경
-    */
+        /*
+            다음 방문을 위해 저장
+        */
 
-    updateThemeButton();
+        localStorage.setItem(
+            'theme',
+            themeState
+        );
 
-});
+
+        /*
+            상태 → 화면 업데이트
+        */
+
+        renderTheme();
+
+    }
+);
 
 
 /* ========================================
@@ -386,66 +601,75 @@ const header =
 
 /*
     페이지를 스크롤할 때
-    Scroll Top 버튼과 Header를
-    동시에 처리한다.
+
+    1. Scroll Top 버튼
+    2. Header
+
+    를 처리한다.
 */
 
-window.addEventListener('scroll', () => {
+window.addEventListener(
+    'scroll',
+    () => {
 
-    const scrollY =
-        window.scrollY;
+        const scrollY =
+            window.scrollY;
 
 
-    /* -----------------------------
-       Scroll Top Button
+        /* -----------------------------
+           Scroll Top Button
 
-       300px 초과
-       → 버튼 표시
-    ----------------------------- */
+           300px 초과
+           → 버튼 표시
+        ----------------------------- */
 
-    if (scrollY > 300) {
+        if (scrollY > 300) {
 
-        scrollTopButton.classList.add(
-            'show'
-        );
+            scrollTopButton.classList.add(
+                'show'
+            );
 
-    } else {
+        }
 
-        scrollTopButton.classList.remove(
-            'show'
-        );
+        else {
+
+            scrollTopButton.classList.remove(
+                'show'
+            );
+
+        }
+
+
+        /* -----------------------------
+           Header
+
+           60px 초과
+           → scrolled 클래스 추가
+        ----------------------------- */
+
+        if (scrollY > 60) {
+
+            header.classList.add(
+                'scrolled'
+            );
+
+        }
+
+        else {
+
+            header.classList.remove(
+                'scrolled'
+            );
+
+        }
 
     }
+);
 
 
-    /* -----------------------------
-       Header
-
-       60px 초과
-       → scrolled 클래스 추가
-    ----------------------------- */
-
-    if (scrollY > 60) {
-
-        header.classList.add(
-            'scrolled'
-        );
-
-    } else {
-
-        header.classList.remove(
-            'scrolled'
-        );
-
-    }
-
-});
-
-
-/*
-    ↑ 버튼 클릭
-    → 페이지 최상단으로 이동
-*/
+/* ========================================
+   Scroll Top Button
+======================================== */
 
 scrollTopButton.addEventListener(
     'click',
@@ -467,36 +691,66 @@ scrollTopButton.addEventListener(
    Section Animation
 ======================================== */
 
-
 /*
     section이 화면에 들어왔는지
     감시하는 객체
 */
 
-const observer = new IntersectionObserver(  
+const observer =
+    new IntersectionObserver(
+
         (entries) => {
-            entries.forEach((entry) => {
 
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                } else {
-                    entry.target.classList.remove('visible');
+            entries.forEach(
+                (entry) => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target.classList.add(
+                            'visible'
+                        );
+
+                    }
+
+                    else {
+
+                        entry.target.classList.remove(
+                            'visible'
+                        );
+
+                    }
+
                 }
-            });
-        },{threshold: 0.2});
+            );
 
-// section이면서 id가 home이 아닌 모든 것을 nodelist로 가져옵니다.
+        },
+
+        {
+            threshold: 0.2
+        }
+
+    );
+
+
+/*
+    Home을 제외한 모든 section
+*/
+
 const sections =
     document.querySelectorAll(
         'section:not(#home)'
     );
 
 
-sections.forEach((section) => {
+sections.forEach(
+    (section) => {
 
-    observer.observe(section);
+        observer.observe(section);
 
-});
+    }
+);
 
 
 /* ========================================
@@ -504,30 +758,53 @@ sections.forEach((section) => {
 ======================================== */
 
 const form =
-    document.querySelector('#contact-form');
-
+    document.querySelector(
+        '#contact-form'
+    );
 
 const nameInput =
-    document.querySelector('#name');
-
+    document.querySelector(
+        '#name'
+    );
 
 const emailInput =
-    document.querySelector('#email');
-
+    document.querySelector(
+        '#email'
+    );
 
 const messageInput =
-    document.querySelector('#message');
-
+    document.querySelector(
+        '#message'
+    );
 
 const successMessage =
-    document.querySelector('.form-success');
+    document.querySelector(
+        '.form-success'
+    );
+
+
+/* ========================================
+   Form State
+======================================== */
+
+/*
+    폼의 현재 검증 상태
+
+    valid   : 모든 입력값이 정상
+    invalid : 하나 이상의 입력값이 잘못됨
+*/
+
+let formState = 'invalid';
 
 
 /* ========================================
    Error Message
 ======================================== */
 
-function showError(input, message) {
+function showError(
+    input,
+    message
+) {
 
     const errorMessage =
         input.parentElement.querySelector(
@@ -586,10 +863,16 @@ function isValidEmail(email) {
 
 function validateForm() {
 
+    /*
+        처음에는 정상이라고 가정
+    */
+
     let isValid = true;
 
 
-    /* 이름 */
+    /* ====================================
+       이름
+    ==================================== */
 
     const name =
         nameInput.value.trim();
@@ -604,12 +887,18 @@ function validateForm() {
 
         isValid = false;
 
-    } else {
+    }
+
+    else {
 
         clearError(nameInput);
 
     }
 
+
+    /* ====================================
+       이메일
+    ==================================== */
 
     const email =
         emailInput.value.trim();
@@ -624,7 +913,11 @@ function validateForm() {
 
         isValid = false;
 
-    } else if (!isValidEmail(email)) {
+    }
+
+    else if (
+        !isValidEmail(email)
+    ) {
 
         showError(
             emailInput,
@@ -633,14 +926,18 @@ function validateForm() {
 
         isValid = false;
 
-    } else {
+    }
+
+    else {
 
         clearError(emailInput);
 
     }
 
 
-    /* 메시지 */
+    /* ====================================
+       메시지
+    ==================================== */
 
     const message =
         messageInput.value.trim();
@@ -655,9 +952,28 @@ function validateForm() {
 
         isValid = false;
 
-    } else {
+    }
+
+    else {
 
         clearError(messageInput);
+
+    }
+
+
+    /* ====================================
+       Form State 변경
+    ==================================== */
+
+    if (isValid) {
+
+        formState = 'valid';
+
+    }
+
+    else {
+
+        formState = 'invalid';
 
     }
 
@@ -671,55 +987,100 @@ function validateForm() {
    Submit Event
 ======================================== */
 
-form.addEventListener('submit', (event) => {
+form.addEventListener(
+    'submit',
+    (event) => {
 
-    event.preventDefault();
+        /*
+            브라우저의 기본 submit 동작 방지
+        */
 
-
-    successMessage.textContent =
-        '';
-
-
-    const isValid =
-        validateForm();
+        event.preventDefault();
 
 
-    if (!isValid) {
+        /*
+            기존 성공 메시지 제거
+        */
 
-        return;
+        successMessage.textContent =
+            '';
+
+
+        /*
+            폼 검증
+
+            validateForm 내부에서
+            formState도 변경된다.
+        */
+
+        const isValid =
+            validateForm();
+
+
+        /*
+            invalid 상태라면 종료
+        */
+
+        if (!isValid) {
+
+            return;
+
+        }
+
+
+        /*
+            valid 상태라면
+            성공 메시지 출력
+        */
+
+        if (formState === 'valid') {
+
+            successMessage.textContent =
+                '문의가 성공적으로 제출되었습니다.';
+
+        }
+
+
+        /*
+            입력값 초기화
+        */
+
+        form.reset();
 
     }
-
-
-    successMessage.textContent =
-        '문의가 성공적으로 제출되었습니다.';
-
-    
-    form.reset();
-
-});
+);
 
 
 /* ========================================
    Input Event
 ======================================== */
 
-nameInput.addEventListener('input', () => {
+nameInput.addEventListener(
+    'input',
+    () => {
 
-    clearError(nameInput);
+        clearError(nameInput);
 
-});
-
-
-emailInput.addEventListener('input', () => {
-
-    clearError(emailInput);
-
-});
+    }
+);
 
 
-messageInput.addEventListener('input', () => {
+emailInput.addEventListener(
+    'input',
+    () => {
 
-    clearError(messageInput);
+        clearError(emailInput);
 
-});
+    }
+);
+
+
+messageInput.addEventListener(
+    'input',
+    () => {
+
+        clearError(messageInput);
+
+    }
+);
+
