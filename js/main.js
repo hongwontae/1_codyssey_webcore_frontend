@@ -193,16 +193,6 @@ async function fetchProjects() {
         const response =
             await fetch(githubApiUrl);
 
-
-        /*
-            HTTP 에러 검사
-
-            fetch는 404, 500 등의 HTTP 에러가
-            발생해도 자동으로 catch로 가지 않는다.
-
-            따라서 response.ok를 확인한다.
-        */
-
         if (!response.ok) {
 
             throw new Error(
@@ -211,14 +201,8 @@ async function fetchProjects() {
 
         }
 
-
-        /*
-            JSON 데이터 변환
-        */
-
     const projects =
         await response.json();
-
 
     const ownProjects =
         projects.filter((project) => {
@@ -226,7 +210,6 @@ async function fetchProjects() {
             return project.fork === false;
 
         });
-
 
     if (ownProjects.length === 0) {
 
@@ -279,22 +262,12 @@ const navMenu =
     document.querySelector('.nav-menu');
 
 
-/*
-    메뉴 버튼을 클릭하면
-    active 클래스를 추가/제거한다.
-*/
-
 menuToggle.addEventListener('click', () => {
 
     navMenu.classList.toggle('active');
 
 });
 
-
-/*
-    모바일 메뉴의 링크를 클릭하면
-    메뉴를 닫는다.
-*/
 
 const navLinks =
     document.querySelectorAll('.nav-menu a');
@@ -319,21 +292,8 @@ const themeToggle =
     document.querySelector('.theme-toggle');
 
 
-/*
-    localStorage에서
-    이전에 선택한 테마를 가져온다.
-*/
-
 const savedTheme =
     localStorage.getItem('theme');
-
-
-/*
-    저장된 테마가 있으면 사용한다.
-
-    저장된 테마가 없다면
-    Dark를 기본값으로 사용한다.
-*/
 
 if (savedTheme) {
 
@@ -347,11 +307,6 @@ if (savedTheme) {
 
 }
 
-
-/*
-    현재 테마에 맞게
-    버튼 아이콘을 변경한다.
-*/
 
 function updateThemeButton() {
 
@@ -520,65 +475,22 @@ scrollTopButton.addEventListener(
 
 const observer = new IntersectionObserver(  
         (entries) => {
-
             entries.forEach((entry) => {
 
                 if (entry.isIntersecting) {
-
-                    /*
-                        화면에 들어오면
-                        visible 추가
-                    */
-
-                    entry.target.classList.add(
-                        'visible'
-                    );
-
+                    entry.target.classList.add('visible');
                 } else {
-
-                    /*
-                        화면에서 나가면
-                        visible 제거
-
-                        → 다시 들어오면
-                        다시 애니메이션 실행
-                    */
-
-                    entry.target.classList.remove(
-                        'visible'
-                    );
-
+                    entry.target.classList.remove('visible');
                 }
-
             });
+        },{threshold: 0.2});
 
-        },
-        {
-            /*
-                section의 20% 정도가
-                화면에 들어오면 실행
-            */
-
-            threshold: 0.2
-        }
-    );
-
-
-/*
-    Home은 제외한다.
-
-    Home은 처음부터 보여야 하기 때문.
-*/
-
+// section이면서 id가 home이 아닌 모든 것을 nodelist로 가져옵니다.
 const sections =
     document.querySelectorAll(
         'section:not(#home)'
     );
 
-
-/*
-    각각의 section을 감시한다.
-*/
 
 sections.forEach((section) => {
 
@@ -699,8 +611,6 @@ function validateForm() {
     }
 
 
-    /* 이메일 */
-
     const email =
         emailInput.value.trim();
 
@@ -784,7 +694,7 @@ form.addEventListener('submit', (event) => {
     successMessage.textContent =
         '문의가 성공적으로 제출되었습니다.';
 
-
+    
     form.reset();
 
 });
