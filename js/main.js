@@ -76,10 +76,6 @@ function setProjectState(newState) {
 
 function renderProjectState() {
 
-    /*
-        모든 상태 화면을 먼저 숨긴다.
-    */
-
     projectsLoading.style.display =
         'none';
 
@@ -141,11 +137,6 @@ function renderProjectState() {
 ======================================== */
 
 function renderProjects() {
-
-    /*
-        projects 배열을
-        HTML 카드 배열로 변환
-    */
 
     const projectHTML =
         projects.map((project) => {
@@ -233,12 +224,6 @@ function renderProjects() {
 
 async function fetchProjects() {
 
-    /*
-        API 요청 시작
-
-        상태 변경:
-        loading
-    */
 
     setProjectState('loading');
 
