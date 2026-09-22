@@ -246,19 +246,9 @@ async function fetchProjects() {
 
         }
 
-
-        /*
-            JSON 데이터 가져오기
-        */
-
         const data =
             await response.json();
 
-
-        /*
-            fork가 아닌
-            본인의 프로젝트만 필터링
-        */
 
         projects =
             data.filter((project) => {
@@ -266,14 +256,6 @@ async function fetchProjects() {
                 return project.fork === false;
 
             });
-
-
-        /*
-            프로젝트가 없는 경우
-
-            상태 변경:
-            empty
-        */
 
         if (projects.length === 0) {
 
@@ -284,12 +266,6 @@ async function fetchProjects() {
         }
 
 
-        /*
-            프로젝트가 존재하는 경우
-
-            상태 변경:
-            success
-        */
 
         setProjectState('success');
 
@@ -303,14 +279,6 @@ async function fetchProjects() {
             '프로젝트를 불러오는 중 오류:',
             error
         );
-
-
-        /*
-            API 요청 실패
-
-            상태 변경:
-            error
-        */
 
         setProjectState('error');
 
@@ -412,10 +380,6 @@ function renderMenuState() {
 menuToggle.addEventListener(
     'click',
     () => {
-
-        /*
-            현재 상태의 반대로 변경
-        */
 
         setMenuState(!menuState);
 
@@ -584,14 +548,6 @@ const header =
     document.querySelector('header');
 
 
-/*
-    페이지를 스크롤할 때
-
-    1. Scroll Top 버튼
-    2. Header
-
-    를 처리한다.
-*/
 
 window.addEventListener(
     'scroll',
@@ -600,13 +556,6 @@ window.addEventListener(
         const scrollY =
             window.scrollY;
 
-
-        /* -----------------------------
-           Scroll Top Button
-
-           300px 초과
-           → 버튼 표시
-        ----------------------------- */
 
         if (scrollY > 300) {
 
@@ -713,7 +662,7 @@ const observer =
         },
 
         {
-            threshold: 0.2
+            threshold: 0.15
         }
 
     );
@@ -881,9 +830,6 @@ function validateForm() {
     }
 
 
-    /* ====================================
-       이메일
-    ==================================== */
 
     const email =
         emailInput.value.trim();
@@ -976,35 +922,16 @@ form.addEventListener(
     'submit',
     (event) => {
 
-        /*
-            브라우저의 기본 submit 동작 방지
-        */
-
         event.preventDefault();
-
-
-        /*
-            기존 성공 메시지 제거
-        */
 
         successMessage.textContent =
             '';
 
 
-        /*
-            폼 검증
-
-            validateForm 내부에서
-            formState도 변경된다.
-        */
 
         const isValid =
             validateForm();
 
-
-        /*
-            invalid 상태라면 종료
-        */
 
         if (!isValid) {
 
@@ -1012,23 +939,12 @@ form.addEventListener(
 
         }
 
-
-        /*
-            valid 상태라면
-            성공 메시지 출력
-        */
-
         if (formState === 'valid') {
 
             successMessage.textContent =
                 '문의가 성공적으로 제출되었습니다.';
 
         }
-
-
-        /*
-            입력값 초기화
-        */
 
         form.reset();
 
